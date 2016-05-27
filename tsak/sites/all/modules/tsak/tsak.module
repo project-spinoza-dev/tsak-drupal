@@ -1,0 +1,46 @@
+<?php
+/*
+ * Implementation of hook_menu()
+ */
+function tsak_menu(){
+  // path location (<a href="http://www.url.com/foo/bar" title="http://www.url.com/foo/bar">http://www.url.com/foo/bar</a> )
+  $items['tsak'] = array(
+    // page title
+    'title' => 'TSAK',
+    // describe the page for the menu system.  site visitors will not see this
+    'description' => 'Simple custom hook_menu() implementation.',
+    // function that is called when visiting the new path
+    'page callback' => 'custom_form_function',
+    // permissions required to view page
+    'access arguments' => array('tsak permission'),
+  );  
+  return $items;
+}
+function tsak_permission() {
+  return array(
+    'tsak permission' => array(
+      'title' => t('Administer tsak module'),
+      'description' => t('Allow people to make use of my module.'),
+    ),
+  );
+}
+ 
+/*
+ * Returns custom content to Drupal
+ */
+function custom_form_function(){
+  // Call theme() function, so that Drupal includes the custom_form-page.tpl.php template
+  return theme('custom_form_template');
+}
+   
+/*
+ * Implementation of hook_theme().
+ */
+function tsak_theme(){
+  return array(
+    'custom_form_template' => array(
+      // template file name will be custom-page.tpl.php
+      'template' => 'tsak-form-page',
+    ),
+  );
+}

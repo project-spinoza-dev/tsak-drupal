@@ -1,0 +1,6 @@
+name = Tsak custom form
+description = Twitter API for extracting data from twitter
+core = 7.x
+stylesheets[all][] = css/custom.css
+scripts[] = js/custom.js
+files[] = tsak.module
