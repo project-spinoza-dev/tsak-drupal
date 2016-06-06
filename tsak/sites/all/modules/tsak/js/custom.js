@@ -1,6 +1,6 @@
 (function ($) {
 
-	//Jquery for Tsak
+//Jquery for Tsak
 //Add Json Command Data
 
 if (!library)
@@ -189,6 +189,7 @@ library.json = {
 			]			
 		};
   $(document).ready(function() {
+
   	addSelectFields();
 	showHide();
 	//onclick function
@@ -220,6 +221,7 @@ library.json = {
 			var responseData = sendAjaxRequest(jsonFormData);
 		}
 	});
+
   });
 
 //function to add items to select and add fields to form
@@ -330,9 +332,7 @@ function getJsonFormData(){
 	        var input = $(this);
 	        var fieldname = input.attr('name');
 	        var fieldvalue = input.val();
-			
 
-	        
 			if(fieldname == "-o"){
 				fieldvalue = fieldvalue.replace(/\\/g, '');
 				fieldvalue = fieldvalue.replace(/\//g, '');
@@ -383,18 +383,17 @@ function sendAjaxRequest(formData){
 	$.ajax({
 		type: 'POST',
 		async: true,
-		//. url: 'request.php',
-		contentType: "application/json",
-		url: 'http://localhost:9191/tsak/api',
-		data: /*formData,*/ JSON.stringify(formData),
+		//. contentType: "application/json",
+		//url: 'http://localhost:9191/tsak/api',
+		url: 'request.php',
+		data: formData, //. JSON.stringify(formData),
 		dataType: "json",
 		beforeSend: function (request){
 		  console.log(JSON.stringify(formData));
 		},
 		success: function(response){
-			var jsonPrettyPrint = JSON.stringify(response); //. syntaxHighlight(response);
-			console.log(response);
-
+			//console.log(response);
+			//var jsonPrettyPrint = JSON.stringify(response);
 			$("#output-panel").css("display","block");
 			$("#json").empty();
 			$('#json').html(library.json.prettyPrint(response));
@@ -415,4 +414,74 @@ function sendAjaxRequest(formData){
 		}
 	});
 }
+
+
+
  })(jQuery);
+//function for saving tsak keys
+function saveTsakKeys(uid, consumerKey,consumerSecret,accessToken,accessTokenSecret) {
+	
+	(jQuery).ajax({
+		url : 'http://localhost/tsak/savedtsakkeys',
+		data : {
+			puid : uid,
+			pconsumerKey : consumerKey,
+			pconsumerSecret : consumerSecret,
+			paccessToken : accessToken,
+			paccessTokenSecret : accessTokenSecret
+		},
+		beforeSend : function() {
+			//jQuery("#saveMessage").show();
+			//jQuery("#loadingimg").show();
+		},
+		type : 'post',
+		success : function(data) {
+			jQuery("#message-box").empty();
+			jQuery("#message-box").append('<span class="success-msg">Application keys Saved successfully</span>');
+		},
+		error : function(xhr, status, error) {
+			// executed if something went wrong during call
+			jQuery("#message-box").empty();
+			jQuery("#message-box").append('<span class="error-msg">Application keys Already saved.Reload Page</span>');
+			if (xhr.status > 0)
+				alert('got error: ' + status); // status 0 - when load is
+			// interrupted
+		}
+	});
+	
+};
+
+//update tsak App keys
+//function for saving tsak keys
+function updateTsakKeys(uid, consumerKey,consumerSecret,accessToken,accessTokenSecret) {
+	
+	(jQuery).ajax({
+		url : 'http://localhost/tsak/updatetsakkeys',
+		data : {
+			upuid : uid,
+			upconsumerKey : consumerKey,
+			upconsumerSecret : consumerSecret,
+			upaccessToken : accessToken,
+			upaccessTokenSecret : accessTokenSecret
+		},
+		beforeSend : function() {
+			//jQuery("#saveMessage").show();
+			//jQuery("#loadingimg").show();
+		},
+		type : 'post',
+		success : function(data) {
+			jQuery("#message-box").empty();
+			jQuery("#message-box").append('<span class="success-msg">Application keys Updated successfully</span>');
+			
+		},
+		error : function(xhr, status, error) {
+			// executed if something went wrong during call
+			jQuery("#message-box").empty();
+			jQuery("#message-box").append('<span class="error-msg">Application keys Already saved</span>');
+			if (xhr.status > 0)
+				alert('got error: ' + status); // status 0 - when load is
+			// interrupted
+		}
+	});
+	
+};

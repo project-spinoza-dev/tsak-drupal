@@ -1,0 +1,51 @@
+<?php
+/**
+ * hook_schema()
+ *
+ */
+ function tsak_schema() {
+  $schema = array();
+    
+    // Example (partial) specification for table "node".
+	$schema['tsakapp'] = array(
+    'description' => 'An Example Table.',
+    'fields' => array(
+      'tsakuid' => array(
+        'description' => 'uid of tsak users.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'consumer_key' => array(
+        'description' => 'A field for storing consumer_key.',
+        'type' => 'varchar',
+        'length' => 150,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+	  'consumer_key_secret' => array(
+        'description' => 'A field for storing consumer_key_secret.',
+        'type' => 'varchar',
+        'length' => 150,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+	  'access_token' => array(
+        'description' => 'A field for storing access_token.',
+        'type' => 'varchar',
+        'length' => 150,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+	  'access_token_secret' => array(
+        'description' => 'A field for storing access_token_secret.',
+        'type' => 'varchar',
+        'length' => 150,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+     ),
+    'primary key' => array('tsakuid'),
+);
+  return $schema;
+}

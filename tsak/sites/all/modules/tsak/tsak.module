@@ -4,6 +4,7 @@
  */
 function tsak_menu(){
   // path location (<a href="http://www.url.com/foo/bar" title="http://www.url.com/foo/bar">http://www.url.com/foo/bar</a> )
+  
   $items['tsak'] = array(
     // page title
     'title' => 'TSAK',
@@ -13,6 +14,18 @@ function tsak_menu(){
     'page callback' => 'custom_form_function',
     // permissions required to view page
     'access arguments' => array('tsak permission'),
+  ); 
+  $items['savedtsakkeys'] = array(
+    'title' => 'SavedTsakkeypage',
+    'page callback' => 'saved_tsak_appkeys',//should use this function for call back
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK, 
+  );
+  $items['updatetsakkeys'] = array(
+    'title' => 'updateTsakkeypage',
+    'page callback' => 'update_tsak_appkeys',//should use this function for call back
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK, 
   );  
   return $items;
 }
@@ -25,6 +38,72 @@ function tsak_permission() {
   );
 }
  
+//function for saving tsak keys
+function saved_tsak_appkeys(){
+  //print "<pre>".print_r($_POST, true)."</pre>";
+   
+  if ($_SERVER['REQUEST_METHOD'] != 'POST')
+
+    return false;
+
+  $dbpuid = $_POST['puid'];
+  $dbpconsumerKey = $_POST['pconsumerKey'];
+  $dbpconsumerSecret = $_POST['pconsumerSecret'];
+  $dbpaccessToken = $_POST['paccessToken'];
+  $dbpaccessTokenSecret = $_POST['paccessTokenSecret'];
+  define('DRUPAL_ROOT', getcwd());
+  //$_SERVER['REMOTE_ADDR'] = "localhost"; // Necessary if running from command line
+  require_once DRUPAL_ROOT . '/includes/bootstrap.inc';
+  drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
+  db_insert('tsakapp')
+    ->fields(array(
+      'tsakuid' => $dbpuid,
+      'consumer_key' => $dbpconsumerKey,
+      'consumer_key_secret' => $dbpconsumerSecret,
+      'access_token' => $dbpaccessToken,
+      'access_token_secret' => $dbpaccessTokenSecret
+    ))
+    ->execute();
+   $response = array ('id' => 1, 'result' => "node saved", 'error' => NULL);
+ 
+  header('content-type: text/javascript');
+  echo json_encode($response);
+  return true;
+
+}
+
+//update keys in database
+function update_tsak_appkeys(){
+
+  if ($_SERVER['REQUEST_METHOD'] != 'POST')
+
+    return false;
+
+  $dbupuid = $_POST['upuid'];
+  $dbupconsumerKey = $_POST['upconsumerKey'];
+  $dbupconsumerSecret = $_POST['upconsumerSecret'];
+  $dbupaccessToken = $_POST['upaccessToken'];
+  $dbupaccessTokenSecret = $_POST['upaccessTokenSecret'];
+  define('DRUPAL_ROOT', getcwd());
+  //$_SERVER['REMOTE_ADDR'] = "localhost"; // Necessary if running from command line
+  require_once DRUPAL_ROOT . '/includes/bootstrap.inc';
+  drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
+  db_update('tsakapp')
+    ->fields(array(
+      'consumer_key' => $dbupconsumerKey,
+      'consumer_key_secret' => $dbupconsumerSecret,
+      'access_token' => $dbupaccessToken,
+      'access_token_secret' => $dbupaccessTokenSecret
+    ))
+    ->condition('tsakuid', $dbupuid) 
+    ->execute();
+   $response = array ('id' => 1, 'result' => "node saved", 'error' => NULL);
+ 
+  header('content-type: text/javascript');
+  echo json_encode($response);
+  return true;
+}
+
 /*
  * Returns custom content to Drupal
  */

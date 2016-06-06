@@ -69,14 +69,56 @@ body {
     display: none;
 }
 .div-margin-top{
-    margin-top: 10px;
+    margin-top: 20px;
 }
 .applicationkeys{
     margin-top: 10px;
+    margin-bottom: 10px;
+   }
+.save-key{
+}
+.save-key a{
+    text-decoration: none !important;
+}
+/********JSON response******/
+#output-panel pre {
+   background-color: ghostwhite;
+   border: 1px solid silver;
+   padding: 5px 10px;
+   margin: 10px; 
+}
+#output-panel .json-key {
+   color: brown !important;
+}
+#output-panel .json-value {
+   color: navy !important;
+}
+#output-panel .json-string {
+   color: olive !important;
+}
+#missing_key_error{
+    display: none;
+    color: #d9534f;
+    margin: 5px 2px;
+}
+#data_downloader{
+    display:none;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background: #5CB85C;
+    color: #fff;
+    text-decoration: none;
+}
+.not-active {
+    pointer-events: none;
+    cursor: default;
+    background: #C7C7C7 !important;
 }
 footer {
     margin: 50px 0;
 }
+#message-box .success-msg{ color: green; }
+#message-box .error-msg{ color: red; }
 /*********************custom css ***************/
 .command-cont{
     margin: 50px 0;
